@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ClinicBookingSystem.Models.DoctorSchedule>
+@{
+    ViewData["Title"] = "Manage Schedule";
+}
+
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <a asp-controller="Doctors" asp-action="Index" class="text-sm text-gray-500 hover:text-gray-700 mb-2 inline-flex items-center">
+            ← Back to Doctors List
+        </a>
+        <div class="flex justify-between items-end">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900">Dr. @ViewBag.DoctorName</h2>
+                <p class="text-gray-600">Weekly Working Schedule</p>
+            </div>
+            <a asp-action="Create" asp-route-doctorId="@ViewBag.DoctorId" class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                </svg>
+                Add Work Day
+            </a>
+        </div>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-3">
+        @* ترتيب الأيام لعرض أيام الأسبوع بشكل منطقي *@
+        @foreach (var day in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>())
+        {
+            var schedule = Model.FirstOrDefault(s => s.DayOfWeek == day);
+            <div class="rounded-xl border-2 p-4 @(schedule != null ? "border-blue-200 bg-blue-50" : "border-gray-100 bg-gray-50 opacity-60")">
+                <h3 class="font-bold text-lg @(schedule != null ? "text-blue-800" : "text-gray-400")">@day.ToString()</h3>
+
+                @if (schedule != null)
+                {
+                    <div class="mt-2">
+                        <div class="flex items-center text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="font-medium">
+                                @DateTime.Today.Add(schedule.StartTime).ToString("hh:mm tt") -
+                                @DateTime.Today.Add(schedule.EndTime).ToString("hh:mm tt")
+                            </span>
+                        </div>
+                        <form asp-action="Delete" asp-route-id="@schedule.Id" method="post" class="mt-4" onsubmit="return confirm('Are you sure you want to remove this day?');">
+                            <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Remove
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-sm text-gray-400 mt-2">Off Day</p>
+                }
+            </div>
+        }
+    </div>
+</div>
