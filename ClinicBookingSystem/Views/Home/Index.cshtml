@@ -1,8 +1,38 @@
-﻿@{
+﻿@model List<string>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center py-16">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+        Your Health, <span class="text-blue-600">Simplified.</span>
+    </h1>
+    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Book appointments with top specialists in seconds. No phone calls, no waiting.
+    </p>
+    <a asp-controller="Booking" asp-action="SelectDoctor" class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold px-8 py-4 rounded-lg shadow-lg transition-all transform hover:-translate-y-1">
+        Book an Appointment Now
+    </a>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="mt-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Browse by Specialization</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            @foreach (var spec in Model)
+            {
+                <a asp-controller="Booking" asp-action="SelectDoctor" asp-route-specialization="@spec"
+                   class="block p-6 bg-white border border-gray-200 rounded-xl text-center hover:border-blue-500 hover:shadow-md transition-all group">
+                    <div class="text-blue-500 mb-2 group-hover:scale-110 transition-transform">
+                        <!-- Generic Medical Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="font-semibold text-gray-700 group-hover:text-blue-600">@spec</span>
+                </a>
+            }
+        </div>
+    </div>
+}
