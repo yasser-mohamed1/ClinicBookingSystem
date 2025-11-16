@@ -1,0 +1,104 @@
+﻿@model IEnumerable<ClinicBookingSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "All Appointments";
+}
+
+<div class="flex flex-col md:flex-row justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Appointment Requests</h1>
+
+    <!-- Filters Area -->
+    <div class="flex space-x-2">
+        <a asp-action="Index" asp-route-status="Pending" class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 @(ViewBag.CurrentStatus == "Pending" ? "ring-2 ring-yellow-400" : "")">Pending</a>
+        <a asp-action="Index" asp-route-status="Confirmed" class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800 hover:bg-green-200 @(ViewBag.CurrentStatus == "Confirmed" ? "ring-2 ring-green-400" : "")">Confirmed</a>
+        <a asp-action="Index" asp-route-status="Cancelled" class="px-3 py-1 text-sm rounded-full bg-red-100 text-red-800 hover:bg-red-200 @(ViewBag.CurrentStatus == "Cancelled" ? "ring-2 ring-red-400" : "")">Cancelled</a>
+        <a asp-action="Index" class="px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200">All</a>
+    </div>
+</div>
+
+<div class="bg-white shadow-sm rounded-xl overflow-hidden border border-gray-200">
+    @if (!Model.Any())
+    {
+        <div class="p-8 text-center text-gray-500">
+            No appointments found.
+        </div>
+    }
+    else
+    {
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date & Time</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-semibold text-gray-900">
+                                @item.AppointmentDateTime.ToString("MMM dd, yyyy")
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                @item.AppointmentDateTime.ToString("hh:mm tt")
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">@item.Patient?.Name</div>
+                            <div class="text-sm text-gray-500">@item.Patient?.PhoneNumber</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dr. @item.Doctor?.Name
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if (item.Status == ClinicBookingSystem.Models.AppointmentStatus.Pending)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                            }
+                            else if (item.Status == ClinicBookingSystem.Models.AppointmentStatus.Confirmed)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Confirmed</span>
+                            }
+                            else if (item.Status == ClinicBookingSystem.Models.AppointmentStatus.Cancelled)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
+                            }
+                            else
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">@item.Status</span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            @if (item.Status == ClinicBookingSystem.Models.AppointmentStatus.Pending)
+                            {
+                                <div class="flex justify-end space-x-2">
+                                    <form asp-action="UpdateStatus" method="post">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="status" value="Confirmed" />
+                                        <button type="submit" class="text-green-600 hover:text-green-900 bg-green-50 px-2 py-1 rounded border border-green-200">Confirm</button>
+                                    </form>
+                                    <form asp-action="UpdateStatus" method="post">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="status" value="Cancelled" />
+                                        <button type="submit" class="text-red-600 hover:text-red-900 bg-red-50 px-2 py-1 rounded border border-red-200" onclick="return confirm('Cancel this appointment?');">Cancel</button>
+                                    </form>
+                                </div>
+                            }
+                            else if (item.Status == ClinicBookingSystem.Models.AppointmentStatus.Confirmed)
+                            {
+                                <form asp-action="UpdateStatus" method="post" class="inline">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="status" value="Completed" />
+                                    <button type="submit" class="text-blue-600 hover:text-blue-900">Mark Complete</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
