@@ -6,7 +6,7 @@
 <div class="max-w-md mx-auto">
     <h2 class="text-2xl font-bold text-gray-900 mb-6">Add New Doctor</h2>
 
-    <form asp-action="Create" class="bg-white shadow-sm rounded-xl border border-gray-200 p-6">
+    <form asp-area="Admin" asp-action="Create" class="bg-white shadow-sm rounded-xl border border-gray-200 p-6">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
 
         <div class="mb-4">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="flex items-center justify-end space-x-4">
-            <a asp-action="Index" class="text-gray-600 hover:text-gray-900 text-sm font-medium">Cancel</a>
+            <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="text-gray-600 hover:text-gray-900 text-sm font-medium">Cancel</a>
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow transition-colors">
                 Save Doctor
             </button>

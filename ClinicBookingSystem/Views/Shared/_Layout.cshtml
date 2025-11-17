@@ -29,10 +29,12 @@
             </a>
             <div class="flex space-x-4">
                 <a class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium" asp-controller="Home" asp-action="Index">Home</a>
-                <div class="h-6 w-px bg-gray-300 self-center"></div>
-                <!-- Admin Links (would be hidden in real app) -->
-                <a class="px-3 py-2 text-sm text-gray-500 hover:text-blue-600" asp-controller="Doctors" asp-action="Index">Manage Doctors (Admin)</a>
-                <a class="px-3 py-2 text-sm text-gray-500 hover:text-blue-600" asp-controller="Appointments" asp-action="Index">All Bookings (Admin)</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="h-6 w-px bg-gray-300 self-center"></div>
+                    <a class="px-3 py-2 text-sm text-gray-500 hover:text-blue-600" asp-area="Admin" asp-controller="Doctors" asp-action="Index">Manage Doctors</a>
+                    <a class="px-3 py-2 text-sm text-gray-500 hover:text-blue-600" asp-area="Admin" asp-controller="Appointments" asp-action="Index">All Bookings</a>
+                }
             </div>
         </nav>
     </header>
@@ -48,7 +50,7 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+@*     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ *@    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

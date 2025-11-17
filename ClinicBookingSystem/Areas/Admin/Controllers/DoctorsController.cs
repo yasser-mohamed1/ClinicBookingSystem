@@ -3,8 +3,9 @@ using ClinicBookingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicBookingSystem.Controllers
+namespace ClinicBookingSystem.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     // [Authorize]
     public class DoctorsController : Controller
     {

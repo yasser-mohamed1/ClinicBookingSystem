@@ -23,10 +23,10 @@
                 <p class="mt-2 text-red-500 italic text-xs">Warning: This action cannot be undone.</p>
             </div>
 
-            <form asp-action="Delete">
+            <form asp-area="Admin" asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
                 <div class="flex items-center justify-end space-x-3">
-                    <a asp-action="Index" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
+                    <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
                         Cancel
                     </a>
                     <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold shadow transition-colors">
