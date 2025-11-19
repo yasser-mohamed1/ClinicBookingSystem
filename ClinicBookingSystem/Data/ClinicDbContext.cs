@@ -1,9 +1,10 @@
 ﻿using ClinicBookingSystem.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicBookingSystem.Data
 {
-    public class ClinicDbContext : DbContext
+    public class ClinicDbContext : IdentityDbContext<ApplicationUser>
     {
         public ClinicDbContext(DbContextOptions<ClinicDbContext> options) : base(options)
         {

@@ -27,7 +27,7 @@
                 </svg>
                 MediBook
             </a>
-            <div class="flex space-x-4">
+            <div class="flex items-center space-x-4">
                 <a class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium" asp-controller="Home" asp-action="Index">Home</a>
                 @if (User.IsInRole("Admin"))
                 {
@@ -50,7 +50,7 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-@*     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
- *@    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
