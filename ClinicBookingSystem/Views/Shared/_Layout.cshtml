@@ -29,7 +29,7 @@
             </a>
             <div class="flex items-center justify-between flex-grow">
                 <div class="hidden md:flex items-center space-x-4 pl-8">
-                    <a class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     @if (User.IsInRole("Admin"))
                     {
                         <div class="h-6 w-px bg-gray-300 self-center"></div>
